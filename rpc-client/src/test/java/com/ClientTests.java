@@ -1,17 +1,15 @@
-package com.zsw.rpc;
+package com;
 
 import com.zsw.rpc.api.IServiceHello;
 import com.zsw.rpc.autoconfigure.RpcClienteAutoConfiguration;
-import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * @author ZhangShaowei on 2019/6/6 13:35
+ * @author ZhangShaowei on 2019/6/6 14:52
  **/
-public class ClientApp {
+public class ClientTests {
 
-    @SneakyThrows
     public static void main(String[] args) {
 
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(RpcClienteAutoConfiguration.class);
@@ -21,5 +19,6 @@ public class ClientApp {
         System.out.println(iServiceHello.sayHello("Shaowei Zhang"));
 
     }
+
 
 }
