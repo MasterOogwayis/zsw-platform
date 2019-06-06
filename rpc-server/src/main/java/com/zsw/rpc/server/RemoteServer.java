@@ -1,7 +1,7 @@
 package com.zsw.rpc.server;
 
-import com.zsw.rpc.api.IServiceHello;
-import com.zsw.rpc.api.impl.IServiceHelloImpl;
+import com.zsw.rpc.api.ServiceHello;
+import com.zsw.rpc.api.impl.ServiceHelloImpl;
 import com.zsw.rpc.server.support.ProcesserHandler;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
@@ -22,7 +22,7 @@ public class RemoteServer {
     @SneakyThrows
     public void startup() {
 
-        IServiceHello target = new IServiceHelloImpl();
+        ServiceHello target = new ServiceHelloImpl();
 
         @Cleanup ServerSocket serverSocket = new ServerSocket(8088);
 
