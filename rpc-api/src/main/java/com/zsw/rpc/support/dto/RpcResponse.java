@@ -1,0 +1,22 @@
+package com.zsw.rpc.support.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+/**
+ * @author ZhangShaowei on 2019/6/6 13:37
+ **/
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class RpcResponse<T extends Serializable> implements Serializable {
+
+    private static final long serialVersionUID = -7004286160936478553L;
+    private T data;
+
+}
