@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RpcResponse<T extends Serializable> implements Serializable {
+public class RpcResponse<T> implements Serializable {
 
     private static final long serialVersionUID = -7004286160936478553L;
     private T data;
