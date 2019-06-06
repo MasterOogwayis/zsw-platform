@@ -31,7 +31,7 @@ public class RpcClientFactoryBean<T> implements FactoryBean<T> {
         return (T) Proxy.newProxyInstance(
                 clazz.getClassLoader(),
                 new Class[]{clazz},
-                new RemoteInvocationHandler(this.host, this.port)
+                new RpcClientProxy(this.host, this.port)
         );
     }
 

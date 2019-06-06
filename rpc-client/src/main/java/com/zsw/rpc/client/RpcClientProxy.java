@@ -21,7 +21,7 @@ import java.net.Socket;
  **/
 @Setter
 @AllArgsConstructor
-public class RemoteInvocationHandler implements InvocationHandler {
+public class RpcClientProxy implements InvocationHandler {
 
     private String host;
 

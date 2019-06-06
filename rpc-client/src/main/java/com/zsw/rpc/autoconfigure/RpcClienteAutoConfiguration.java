@@ -42,6 +42,8 @@ public class RpcClienteAutoConfiguration {
             }
             scanner.setAnnotationClass(RpcClient.class);
             scanner.registerFilters();
+
+            // TODO  获取注解上的 basePackages
             scanner.doScan("com");
 
         }
