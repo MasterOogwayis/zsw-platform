@@ -60,7 +60,7 @@ public class RemoteServer implements ApplicationContextAware, InitializingBean {
         }
         beansWithAnnotation.forEach((key, value) -> {
             RpcService rpcService = value.getClass().getAnnotation(RpcService.class);
-            this.handlerMappings.put(rpcService.api() + "#" + rpcService.version(), value);
+            this.handlerMappings.put(rpcService.impl().getName() + "#" + rpcService.version(), value);
         });
     }
 }

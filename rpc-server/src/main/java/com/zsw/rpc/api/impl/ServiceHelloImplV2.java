@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author ZhangShaowei on 2019/6/6 13:29
  **/
 @Slf4j
-@RpcService(api = "com.zsw.rpc.api.ServiceHello", version = "v2")
+@RpcService(impl = ServiceHello.class, version = "v2")
 public class ServiceHelloImplV2 implements ServiceHello {
 
     @Override

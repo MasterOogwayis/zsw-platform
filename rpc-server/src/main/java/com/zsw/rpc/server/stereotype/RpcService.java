@@ -15,8 +15,7 @@ public @interface RpcService {
     @AliasFor(annotation = Component.class)
     String value() default "";
 
-
-    String api();
+    Class<?> impl();
 
     String version() default "";
 
