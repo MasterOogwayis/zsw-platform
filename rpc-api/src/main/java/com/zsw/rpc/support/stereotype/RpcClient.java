@@ -28,12 +28,17 @@ public @interface RpcClient {
     int port();
 
     /**
-     * 目标类，默认备注解的当前类
+     * 目标类，默认当前类
      *
      * @return
      */
     Class<?> target() default void.class;
 
+    /**
+     * 接口受限版本号
+     *
+     * @return
+     */
     String version() default "";
 
 
