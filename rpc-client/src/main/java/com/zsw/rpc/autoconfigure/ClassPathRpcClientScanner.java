@@ -78,14 +78,14 @@ public class ClassPathRpcClientScanner extends ClassPathBeanDefinitionScanner {
 
             Object host = annotationAttributes.get("host").get(0);
             Object port = annotationAttributes.get("port").get(0);
-            Object target = annotationAttributes.get("target").get(0);
-            if (target == null || "".equals(target.toString())) {
-                target = beanClassName;
+            Class<?> target = (Class<?>) annotationAttributes.get("target").get(0);
+            if (target != void.class) {
+                beanClassName = target.getName();
             }
 
             definition.getPropertyValues().add("host", host);
             definition.getPropertyValues().add("port", port);
-            definition.getPropertyValues().add("target", target);
+            definition.getPropertyValues().add("target", beanClassName);
 
             definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
         }

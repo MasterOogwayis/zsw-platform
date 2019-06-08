@@ -17,7 +17,7 @@ public class RpcAppServer {
         RemoteServer server = applicationContext.getBean(RemoteServer.class);
 
 
-        server.startup();
+        server.publisher(8088);
 
     }
 

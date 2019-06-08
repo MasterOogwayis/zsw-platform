@@ -39,24 +39,28 @@ public class RpcClientProxy implements InvocationHandler {
             return invokeDefaultMethod(proxy, method, args);
         }
 
-        RpcRequest request = RpcRequest.builder()
-                .clazz(this.target)
-                .method(method.getName())
-                .params(args)
-                .build();
-
-        @Cleanup Socket socket = new Socket(this.host, this.port);
-
-        @Cleanup ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-        oos.writeObject(request);
-        oos.flush();
-
-        @Cleanup ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-        RpcResponse<?> response = (RpcResponse<?>) ois.readObject();
+        RpcResponse<?> response = this.rpcTransport(proxy, method, args);
         if (response.isSuccess()) {
             return response.getData();
         }
         throw new Exception(String.valueOf(response.getData()));
+    }
+
+
+    private RpcResponse<?> rpcTransport(Object proxy, Method method, Object[] args) throws Exception {
+        Socket socket = new Socket(this.host, this.port);
+        try (ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())
+        ){
+            RpcRequest request = RpcRequest.builder()
+                    .clazz(this.target)
+                    .method(method.getName())
+                    .params(args)
+                    .build();
+            oos.writeObject(request);
+            oos.flush();
+            return (RpcResponse<?>) ois.readObject();
+        }
     }
 
     private boolean isDefaultMethod(Method method) {

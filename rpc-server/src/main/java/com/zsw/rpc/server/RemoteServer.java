@@ -26,9 +26,9 @@ public class RemoteServer implements ApplicationContextAware, InitializingBean {
     ApplicationContext applicationContext;
 
     @SneakyThrows
-    public void startup() {
+    public void publisher(int port) {
 
-        @Cleanup ServerSocket serverSocket = new ServerSocket(8088);
+        @Cleanup ServerSocket serverSocket = new ServerSocket(port);
 
         for (; ; ) {
             this.executor.execute(new ProcesserHandler(serverSocket.accept(), this.applicationContext));

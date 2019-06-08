@@ -1,6 +1,7 @@
 package com.zsw.rpc;
 
 import com.zsw.rpc.api.ServiceHello;
+import com.zsw.rpc.api.ServiceHelloV2;
 import com.zsw.rpc.autoconfigure.RpcClientAutoConfiguration;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
@@ -16,9 +17,11 @@ public class ClientApp {
 
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(RpcClientAutoConfiguration.class);
         ServiceHello serviceHello = applicationContext.getBean(ServiceHello.class);
+        ServiceHelloV2 serviceHelloV2 = applicationContext.getBean(ServiceHelloV2.class);
 
 
         System.out.println(serviceHello.sayHello("Shaowei Zhang"));
+        System.out.println(serviceHelloV2.sayHello("Shaowei Zhang"));
 
     }
 

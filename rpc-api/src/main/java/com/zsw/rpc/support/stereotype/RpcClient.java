@@ -32,7 +32,7 @@ public @interface RpcClient {
      *
      * @return
      */
-    String target() default "";
+    Class<?> target() default void.class;
 
 
 
