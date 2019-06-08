@@ -27,6 +27,8 @@ public class RpcClientProxy implements InvocationHandler {
 
     private int port;
 
+    private String target;
+
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -38,7 +40,7 @@ public class RpcClientProxy implements InvocationHandler {
         }
 
         RpcRequest request = RpcRequest.builder()
-                .clazz(method.getDeclaringClass().getName())
+                .clazz(this.target)
                 .method(method.getName())
                 .params(args)
                 .build();
@@ -50,9 +52,11 @@ public class RpcClientProxy implements InvocationHandler {
         oos.flush();
 
         @Cleanup ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-        @SuppressWarnings("unchecked")
-        RpcResponse<String> response = (RpcResponse<String>) ois.readObject();
-        return response.getData();
+        RpcResponse<?> response = (RpcResponse<?>) ois.readObject();
+        if (response.isSuccess()) {
+            return response.getData();
+        }
+        throw new Exception(String.valueOf(response.getData()));
     }
 
     private boolean isDefaultMethod(Method method) {

@@ -5,11 +5,15 @@ import com.zsw.rpc.support.dto.RpcResponse;
 import lombok.AllArgsConstructor;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
+import org.springframework.context.ApplicationContext;
+import org.springframework.util.CollectionUtils;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author ZhangShaowei on 2019/6/6 14:14
@@ -19,40 +23,78 @@ public class ProcesserHandler implements Runnable {
 
     Socket socket;
 
-    Object target;
+    ApplicationContext applicationContext;
 
     @SneakyThrows
     @Override
     public void run() {
-        try {
-            @Cleanup ObjectInputStream ois = new ObjectInputStream(this.socket.getInputStream());
-            RpcRequest request = (RpcRequest) ois.readObject();
-            Object invoke = this.invoke(request);
-            RpcResponse response = RpcResponse.builder().data(invoke).build();
-            @Cleanup ObjectOutputStream oos = new ObjectOutputStream(this.socket.getOutputStream());
-            oos.writeObject(response);
-            oos.flush();
-        } finally {
-            this.socket.close();
-        }
+        this.invoke();
     }
 
 
-    @SneakyThrows
-    private Object invoke(RpcRequest request) {
-        Class[] types = new Class[request.getParams().length];
+    private void invoke() {
+        RpcResponse<Object> response = new RpcResponse<>();
+        try (ObjectInputStream ois = new ObjectInputStream(this.socket.getInputStream());
+             ObjectOutputStream oos = new ObjectOutputStream(this.socket.getOutputStream())) {
 
-        for (int i = 0; i < request.getParams().length; i++) {
-            types[i] = request.getParams()[i].getClass();
+            RpcRequest request = (RpcRequest) ois.readObject();
+
+            Object bean = this.getBean(request.getClazz());
+            Method method;
+            if (Objects.isNull(bean)) {
+                response.setData("no service found with the given class : " + request.getClazz());
+                response.setSuccess(false);
+            } else if ((method = this.resolveMethod(bean, request.getMethod(), request.getParams())) == null) {
+                response.setData("No method [" + request.getMethod() + "] found in service " + request.getClazz());
+                response.setSuccess(false);
+            } else {
+                Object invoke = method.invoke(bean, request.getParams());
+                response.setData(invoke);
+            }
+            oos.writeObject(response);
+            oos.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                this.socket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
-        Class<?> clazz = Class.forName(request.getClazz());
-
-        Method declaredMethod = clazz.getDeclaredMethod(request.getMethod(), types);
-
-        return declaredMethod.invoke(this.target, request.getParams());
+    }
 
 
+    private Object getBean(String className) {
+        try {
+            Class<?> clazz = Class.forName(className);
+            Map<String, ?> beans = this.applicationContext.getBeansOfType(clazz);
+            return this.resolveMultipleBeans(beans);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private Method resolveMethod(Object bean, String methodName, Object[] params) {
+        try {
+            Class<?>[] types = new Class[params.length];
+            for (int i = 0; i < params.length; i++) {
+                types[i] = params[i].getClass();
+            }
+            return bean.getClass().getDeclaredMethod(methodName, types);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private Object resolveMultipleBeans(Map<String, ?> beans) {
+        if (CollectionUtils.isEmpty(beans)) {
+            return null;
+        }
+        return beans.values().iterator().next();
     }
 
 

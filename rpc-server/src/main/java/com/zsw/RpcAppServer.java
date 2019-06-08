@@ -2,6 +2,8 @@ package com.zsw;
 
 import com.zsw.rpc.server.RemoteServer;
 import lombok.SneakyThrows;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * @author ZhangShaowei on 2019/6/6 13:26
@@ -11,7 +13,11 @@ public class RpcAppServer {
     @SneakyThrows
     public static void main(String[] args) {
 
-        new RemoteServer().startup();
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("com.zsw.rpc");
+        RemoteServer server = applicationContext.getBean(RemoteServer.class);
+
+
+        server.startup();
 
     }
 

@@ -19,8 +19,8 @@ import org.springframework.core.type.AnnotationMetadata;
 @Slf4j
 @Configuration
 @ComponentScan("com")
-@Import({RpcClienteAutoConfiguration.AutoConfiguredClientScannerRegistrar.class})
-public class RpcClienteAutoConfiguration {
+@Import({RpcClientAutoConfiguration.AutoConfiguredClientScannerRegistrar.class})
+public class RpcClientAutoConfiguration {
 
 
     /**
@@ -44,7 +44,7 @@ public class RpcClienteAutoConfiguration {
             scanner.registerFilters();
 
             // TODO  获取注解上的 basePackages
-            scanner.doScan("com");
+            scanner.doScan("com.zsw.rpc");
 
         }
 
