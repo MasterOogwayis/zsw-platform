@@ -34,6 +34,8 @@ public @interface RpcClient {
      */
     Class<?> target() default void.class;
 
+    String version() default "";
+
 
 
 }

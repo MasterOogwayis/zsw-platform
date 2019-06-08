@@ -23,7 +23,7 @@ public class ProcesserHandler implements Runnable {
 
     Socket socket;
 
-    ApplicationContext applicationContext;
+    Map<String, Object> handlerMappings;
 
     @SneakyThrows
     @Override
@@ -39,7 +39,7 @@ public class ProcesserHandler implements Runnable {
 
             RpcRequest request = (RpcRequest) ois.readObject();
 
-            Object bean = this.getBean(request.getClazz());
+            Object bean = this.getBean(request.getClazz() + "#" + request.getVersion());
             Method method;
             if (Objects.isNull(bean)) {
                 response.setData("no service found with the given class : " + request.getClazz());
@@ -67,14 +67,7 @@ public class ProcesserHandler implements Runnable {
 
 
     private Object getBean(String className) {
-        try {
-            Class<?> clazz = Class.forName(className);
-            Map<String, ?> beans = this.applicationContext.getBeansOfType(clazz);
-            return this.resolveMultipleBeans(beans);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return this.handlerMappings.get(className);
     }
 
     private Method resolveMethod(Object bean, String methodName, Object[] params) {
@@ -88,13 +81,6 @@ public class ProcesserHandler implements Runnable {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private Object resolveMultipleBeans(Map<String, ?> beans) {
-        if (CollectionUtils.isEmpty(beans)) {
-            return null;
-        }
-        return beans.values().iterator().next();
     }
 
 

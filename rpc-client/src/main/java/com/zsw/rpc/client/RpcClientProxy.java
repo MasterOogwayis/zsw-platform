@@ -29,6 +29,8 @@ public class RpcClientProxy implements InvocationHandler {
 
     private String target;
 
+    private String version;
+
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -56,6 +58,7 @@ public class RpcClientProxy implements InvocationHandler {
                     .clazz(this.target)
                     .method(method.getName())
                     .params(args)
+                    .version(this.version)
                     .build();
             oos.writeObject(request);
             oos.flush();

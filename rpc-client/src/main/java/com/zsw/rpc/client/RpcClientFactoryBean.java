@@ -19,6 +19,8 @@ public class RpcClientFactoryBean<T> implements FactoryBean<T> {
 
     private String target;
 
+    private String version;
+
     public RpcClientFactoryBean(Class<T> clazz) {
         this.clazz = clazz;
     }
@@ -31,7 +33,7 @@ public class RpcClientFactoryBean<T> implements FactoryBean<T> {
         return (T) Proxy.newProxyInstance(
                 clazz.getClassLoader(),
                 new Class[]{clazz},
-                new RpcClientProxy(this.host, this.port, this.target)
+                new RpcClientProxy(this.host, this.port, this.target, this.version)
         );
     }
 
