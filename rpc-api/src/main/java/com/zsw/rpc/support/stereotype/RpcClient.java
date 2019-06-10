@@ -28,7 +28,7 @@ public @interface RpcClient {
     int port();
 
     /**
-     * 目标类，默认当前类
+     * 目标类，默认寻找当前类的实现
      *
      * @return
      */

@@ -86,6 +86,7 @@ public class ClassPathRpcClientScanner extends ClassPathBeanDefinitionScanner {
 
             definition.getPropertyValues().add("host", host);
             definition.getPropertyValues().add("port", port);
+            // 默认使用当前接口
             definition.getPropertyValues().add("target", beanClassName);
             definition.getPropertyValues().add("version", version);
 
@@ -94,6 +95,12 @@ public class ClassPathRpcClientScanner extends ClassPathBeanDefinitionScanner {
     }
 
 
+    /**
+     * 是要将这个接口扫描到容器 - 实际上会使用 代理类代理 RpcClientFactoryBean
+     *
+     * @param beanDefinition
+     * @return
+     */
     @Override
     protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
         return beanDefinition.getMetadata().isInterface() && beanDefinition.getMetadata().isIndependent();
