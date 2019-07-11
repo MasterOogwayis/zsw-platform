@@ -20,6 +20,10 @@
             <groupId>com.zsw</groupId>
             <artifactId>rpc-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
