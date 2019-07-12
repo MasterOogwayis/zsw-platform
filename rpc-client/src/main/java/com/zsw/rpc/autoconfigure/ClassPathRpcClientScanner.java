@@ -1,6 +1,7 @@
 package com.zsw.rpc.autoconfigure;
 
 import com.zsw.rpc.client.RpcClientFactoryBean;
+import com.zsw.rpc.discovery.RegistryCenter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.FactoryBean;
@@ -71,16 +72,15 @@ public class ClassPathRpcClientScanner extends ClassPathBeanDefinitionScanner {
             MultiValueMap<String, Object> annotationAttributes =
                     definition.getMetadata().getAllAnnotationAttributes("com.zsw.rpc.support.stereotype.RpcClient");
 
-            Object host = annotationAttributes.get("host").get(0);
-            Object port = annotationAttributes.get("port").get(0);
             Object version = annotationAttributes.get("version").get(0);
             Class<?> target = (Class<?>) annotationAttributes.get("target").get(0);
             if (target != void.class) {
                 beanClassName = target.getName();
             }
 
-            definition.getPropertyValues().add("host", host);
-            definition.getPropertyValues().add("port", port);
+//            definition.getPropertyValues().add("registryCenter", this.registryCenter);
+
+            definition.getPropertyValues().add("serverName", beanClassName);
             // 默认使用当前接口
             definition.getPropertyValues().add("target", beanClassName);
             definition.getPropertyValues().add("version", version);

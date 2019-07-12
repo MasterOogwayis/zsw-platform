@@ -1,35 +1,37 @@
 package com.zsw.rpc.client;
 
+import com.zsw.rpc.discovery.RegistryCenter;
 import com.zsw.rpc.support.dto.RpcRequest;
 import com.zsw.rpc.support.dto.RpcResponse;
-import lombok.AllArgsConstructor;
-import lombok.Cleanup;
 import lombok.Setter;
-import org.springframework.lang.UsesJava7;
+import org.springframework.beans.factory.InitializingBean;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.Socket;
 
 /**
  * @author ZhangShaowei on 2019/6/6 14:05
  **/
 @Setter
-@AllArgsConstructor
 public class RpcClientProxy implements InvocationHandler {
 
-    private String host;
+    public RpcClientProxy(RegistryCenter registryCenter, String serverName, String target, String version) {
+        this.registryCenter = registryCenter;
+        this.serverName = serverName;
+        this.target = target;
+        this.version = version;
+    }
 
-    private int port;
+    String serverName;
 
-    private String target;
+    String target;
 
-    private String version;
+    String version;
+
+    RegistryCenter registryCenter;
 
 
     @Override
@@ -50,20 +52,13 @@ public class RpcClientProxy implements InvocationHandler {
 
 
     private RpcResponse<?> rpcTransport(Object proxy, Method method, Object[] args) throws Exception {
-        Socket socket = new Socket(this.host, this.port);
-        try (ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())
-        ){
-            RpcRequest request = RpcRequest.builder()
-                    .clazz(this.target)
-                    .method(method.getName())
-                    .params(args)
-                    .version(this.version)
-                    .build();
-            oos.writeObject(request);
-            oos.flush();
-            return (RpcResponse<?>) ois.readObject();
-        }
+        RpcRequest request = RpcRequest.builder()
+                .clazz(this.target)
+                .method(method.getName())
+                .params(args)
+                .version(this.version)
+                .build();
+        return new RpcNetTransport(this.registryCenter.select(this.serverName)).send(request);
     }
 
     private boolean isDefaultMethod(Method method) {
@@ -87,5 +82,4 @@ public class RpcClientProxy implements InvocationHandler {
                                 | MethodHandles.Lookup.PACKAGE | MethodHandles.Lookup.PUBLIC)
                 .unreflectSpecial(method, declaringClass).bindTo(proxy).invokeWithArguments(args);
     }
-
 }

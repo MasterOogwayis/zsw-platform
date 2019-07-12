@@ -1,7 +1,9 @@
 package com.zsw.rpc.client;
 
+import com.zsw.rpc.discovery.RegistryCenter;
 import lombok.Setter;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Proxy;
 
@@ -13,13 +15,14 @@ public class RpcClientFactoryBean<T> implements FactoryBean<T> {
 
     private Class<T> clazz;
 
-    private String host;
-
-    private int port;
+    private String serverName;
 
     private String target;
 
     private String version;
+
+    @Autowired
+    private RegistryCenter registryCenter;
 
     public RpcClientFactoryBean(Class<T> clazz) {
         this.clazz = clazz;
@@ -33,7 +36,7 @@ public class RpcClientFactoryBean<T> implements FactoryBean<T> {
         return (T) Proxy.newProxyInstance(
                 clazz.getClassLoader(),
                 new Class[]{clazz},
-                new RpcClientProxy(this.host, this.port, this.target, this.version)
+                new RpcClientProxy(this.registryCenter, this.serverName, this.target, this.version)
         );
     }
 

@@ -4,7 +4,7 @@ package com.zsw.rpc.support.stereotype;
 import java.lang.annotation.*;
 
 /**
- *
+ * @author ZhangShaowei
  */
 @Inherited
 @Documented
@@ -13,19 +13,19 @@ import java.lang.annotation.*;
 public @interface RpcClient {
 
 
-    /**
-     * 服务地址
-     *
-     * @return
-     */
-    String host();
-
-    /**
-     * port
-     *
-     * @return
-     */
-    int port();
+//    /**
+//     * 服务地址
+//     *
+//     * @return
+//     */
+//    String host();
+//
+//    /**
+//     * port
+//     *
+//     * @return
+//     */
+//    int port();
 
     /**
      * 目标类，默认寻找当前类的实现
@@ -40,7 +40,6 @@ public @interface RpcClient {
      * @return
      */
     String version() default "";
-
 
 
 }

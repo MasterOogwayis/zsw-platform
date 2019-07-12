@@ -2,66 +2,54 @@ package com.zsw.rpc.server.support;
 
 import com.zsw.rpc.support.dto.RpcRequest;
 import com.zsw.rpc.support.dto.RpcResponse;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
-import lombok.Cleanup;
-import lombok.SneakyThrows;
-import org.springframework.context.ApplicationContext;
-import org.springframework.util.CollectionUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.Socket;
 import java.util.Map;
 import java.util.Objects;
 
 /**
  * @author ZhangShaowei on 2019/6/6 14:14
  **/
+@Slf4j
 @AllArgsConstructor
-public class ProcesserHandler implements Runnable {
-
-    Socket socket;
+@ChannelHandler.Sharable
+public class ProcesserHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
     Map<String, Object> handlerMappings;
 
-    @SneakyThrows
+
     @Override
-    public void run() {
-        this.invoke();
+    protected void channelRead0(ChannelHandlerContext ctx, RpcRequest msg) throws Exception {
+        log.debug("active a request: {}", msg);
+        Object response = this.invoke(msg);
+        ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
 
-
-    private void invoke() {
+    private Object invoke(RpcRequest request) throws InvocationTargetException, IllegalAccessException {
         RpcResponse<Object> response = new RpcResponse<>();
-        try (ObjectInputStream ois = new ObjectInputStream(this.socket.getInputStream());
-             ObjectOutputStream oos = new ObjectOutputStream(this.socket.getOutputStream())) {
 
-            RpcRequest request = (RpcRequest) ois.readObject();
-
-            Object bean = this.getBean(request.getClazz() + "#" + request.getVersion());
-            Method method;
-            if (Objects.isNull(bean)) {
-                response.setData("no service found with the given class : " + request.getClazz());
-                response.setSuccess(false);
-            } else if ((method = this.resolveMethod(bean, request.getMethod(), request.getParams())) == null) {
-                response.setData("No method [" + request.getMethod() + "] found in service " + request.getClazz());
-                response.setSuccess(false);
-            } else {
-                Object invoke = method.invoke(bean, request.getParams());
-                response.setData(invoke);
-            }
-            oos.writeObject(response);
-            oos.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                this.socket.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        String name = request.getClazz() + (StringUtils.isEmpty(request.getVersion()) ? "" : ("-" + request.getVersion()));
+        Object bean = this.getBean(name);
+        Method method;
+        if (Objects.isNull(bean)) {
+            response.setData("no service found with the given class : " + request.getClazz());
+            response.setSuccess(false);
+        } else if ((method = this.resolveMethod(bean, request.getMethod(), request.getParams())) == null) {
+            response.setData("No method [" + request.getMethod() + "] found in service " + request.getClazz());
+            response.setSuccess(false);
+        } else {
+            Object invoke = method.invoke(bean, request.getParams());
+            response.setData(invoke);
         }
+        return response;
 
     }
 
@@ -82,6 +70,5 @@ public class ProcesserHandler implements Runnable {
         }
         return null;
     }
-
 
 }
