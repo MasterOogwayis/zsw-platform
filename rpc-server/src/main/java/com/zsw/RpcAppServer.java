@@ -16,8 +16,7 @@ public class RpcAppServer {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext("com.zsw.rpc");
         RemoteServer server = applicationContext.getBean(RemoteServer.class);
 
-
-        server.publisher(8088);
+        server.start();
 
     }
 
