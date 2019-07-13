@@ -1,4 +1,4 @@
-package com.zsw.rpc.registry.stereotype;
+package com.zsw.rpc.stereotype;
 
 
 import java.lang.annotation.*;
@@ -12,20 +12,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RpcClient {
 
-
-    /**
-     * 服务地址
-     *
-     * @return
-     */
-    String host();
-
-    /**
-     * port
-     *
-     * @return
-     */
-    int port();
 
     /**
      * 目标类，默认寻找当前类的实现

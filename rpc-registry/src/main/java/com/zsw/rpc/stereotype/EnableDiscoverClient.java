@@ -1,7 +1,7 @@
-package com.zsw.rpc.registry.stereotype;
+package com.zsw.rpc.stereotype;
 
 
-import com.zsw.rpc.server.RpcServerConfigurationSelector;
+import com.zsw.rpc.client.RpcClientConfigurationSelector;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(RpcServerConfigurationSelector.class)
+@Import(RpcClientConfigurationSelector.class)
 public @interface EnableDiscoverClient {
 
     AdviceMode mode() default AdviceMode.PROXY;

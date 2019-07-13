@@ -1,7 +1,7 @@
 package com.zsw.rpc.server;
 
-import com.zsw.rpc.registry.dto.RpcRequest;
-import com.zsw.rpc.registry.dto.RpcResponse;
+import com.zsw.rpc.dto.RpcRequest;
+import com.zsw.rpc.dto.RpcResponse;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;

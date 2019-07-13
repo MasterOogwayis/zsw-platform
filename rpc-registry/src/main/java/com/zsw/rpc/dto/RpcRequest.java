@@ -1,4 +1,4 @@
-package com.zsw.rpc.registry.dto;
+package com.zsw.rpc.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,7 @@
 package com.zsw.rpc.server;
 
 import com.zsw.rpc.registry.RegistryCenter;
-import com.zsw.rpc.registry.stereotype.RpcService;
+import com.zsw.rpc.stereotype.RpcService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

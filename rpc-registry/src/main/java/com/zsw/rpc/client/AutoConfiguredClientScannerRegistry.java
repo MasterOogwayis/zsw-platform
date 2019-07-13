@@ -1,6 +1,6 @@
 package com.zsw.rpc.client;
 
-import com.zsw.rpc.registry.stereotype.RpcClient;
+import com.zsw.rpc.stereotype.RpcClient;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -29,7 +29,7 @@ public class AutoConfiguredClientScannerRegistry
         scanner.registerFilters();
 
         // TODO  获取注解上的 basePackages
-        scanner.doScan("com.zsw");
+        scanner.doScan("com.zsw.rpc");
 
     }
 

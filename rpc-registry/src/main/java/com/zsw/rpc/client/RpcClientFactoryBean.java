@@ -1,7 +1,9 @@
 package com.zsw.rpc.client;
 
+import com.zsw.rpc.loadbalance.IRule;
 import lombok.Setter;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Proxy;
 
@@ -10,6 +12,11 @@ import java.lang.reflect.Proxy;
  **/
 @Setter
 public class RpcClientFactoryBean<T> implements FactoryBean<T> {
+
+    private String serverName;
+
+    @Autowired
+    private IRule rule;
 
     private Class<T> clazz;
 
@@ -28,7 +35,7 @@ public class RpcClientFactoryBean<T> implements FactoryBean<T> {
         return (T) Proxy.newProxyInstance(
                 clazz.getClassLoader(),
                 new Class[]{clazz},
-                new RpcClientProxy(this.host, this.port, this.target, this.version)
+                new RpcClientProxy(this.serverName, this.rule, this.target, this.version)
         );
     }
 

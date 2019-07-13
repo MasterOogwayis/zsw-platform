@@ -1,6 +1,7 @@
 package com.zsw;
 
-import com.zsw.rpc.registry.server.RpcDiscoverServer;
+import com.zsw.rpc.server.RpcDiscoverServer;
+import com.zsw.rpc.RpcServerAutoConfiguration;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -13,7 +14,7 @@ public class RpcAppServer {
     @SneakyThrows
     public static void main(String[] args) {
 
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("com.zsw.rpc");
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(RpcServerAutoConfiguration.class);
         RpcDiscoverServer server = applicationContext.getBean(RpcDiscoverServer.class);
 
 

@@ -1,8 +1,8 @@
 package com.zsw.rpc.loadbalance;
 
 import com.zsw.rpc.registry.RegistryCenter;
-import com.zsw.rpc.registry.ServerChangeListener;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author Administrator on 2019/7/13 15:04
  **/
-@RequiredArgsConstructor
+@Slf4j
+@AllArgsConstructor
 public class ZookeeperClientRule implements IRule {
 
     private RegistryCenter registryCenter;
@@ -30,7 +31,9 @@ public class ZookeeperClientRule implements IRule {
         if (!INSTANCE.containsKey(serverName)) {
             this.update(serverName);
         }
-        return INSTANCE.get(serverName).choose();
+        String address = INSTANCE.get(serverName).choose();
+        log.debug("select: serverName = {}, address = {}", serverName, address);
+        return address;
     }
 
 

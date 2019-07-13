@@ -11,9 +11,11 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.ScannedGenericBeanDefinition;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -68,18 +70,18 @@ public class ClassPathRpcClientScanner extends ClassPathBeanDefinitionScanner {
             definition.getConstructorArgumentValues().addGenericArgumentValue(beanClassName);
             definition.setBeanClass(this.rpcClientFactoryBeanClass);
             MultiValueMap<String, Object> annotationAttributes =
-                    definition.getMetadata().getAllAnnotationAttributes("com.zsw.rpc.registry.stereotype.RpcClient");
+                    definition.getMetadata().getAllAnnotationAttributes("com.zsw.rpc.stereotype.RpcClient");
 
-            Object host = annotationAttributes.get("host").get(0);
-            Object port = annotationAttributes.get("port").get(0);
             Object version = annotationAttributes.get("version").get(0);
             Class<?> target = (Class<?>) annotationAttributes.get("target").get(0);
             if (target != void.class) {
                 beanClassName = target.getName();
             }
-
-            definition.getPropertyValues().add("host", host);
-            definition.getPropertyValues().add("port", port);
+            String serverName = beanClassName;
+            if (Objects.nonNull(version) && StringUtils.hasText(version.toString())) {
+                serverName = serverName + "-" + version;
+            }
+            definition.getPropertyValues().add("serverName", serverName);
             // 默认使用当前接口
             definition.getPropertyValues().add("target", beanClassName);
             definition.getPropertyValues().add("version", version);

@@ -1,19 +1,16 @@
 package com.zsw.rpc.client;
 
+import com.zsw.rpc.dto.RpcRequest;
+import com.zsw.rpc.dto.RpcResponse;
 import com.zsw.rpc.loadbalance.IRule;
-import com.zsw.rpc.registry.dto.RpcRequest;
-import com.zsw.rpc.registry.dto.RpcResponse;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.Socket;
 
 /**
  * @author ZhangShaowei on 2019/6/6 14:05
@@ -22,7 +19,9 @@ import java.net.Socket;
 @AllArgsConstructor
 public class RpcClientProxy implements InvocationHandler {
 
-    private IRule rule
+    private String serverName;
+
+    private IRule rule;
 
     private String target;
 
@@ -47,20 +46,13 @@ public class RpcClientProxy implements InvocationHandler {
 
 
     private RpcResponse<?> rpcTransport(Object proxy, Method method, Object[] args) throws Exception {
-        Socket socket = new Socket(this.host, this.port);
-        try (ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())
-        ) {
-            RpcRequest request = RpcRequest.builder()
-                    .clazz(this.target)
-                    .method(method.getName())
-                    .params(args)
-                    .version(this.version)
-                    .build();
-            oos.writeObject(request);
-            oos.flush();
-            return (RpcResponse<?>) ois.readObject();
-        }
+        RpcRequest request = RpcRequest.builder()
+                .clazz(this.target)
+                .method(method.getName())
+                .params(args)
+                .version(this.version)
+                .build();
+        return new RpcNetTransport(this.rule.select(this.serverName)).send(request);
     }
 
     private boolean isDefaultMethod(Method method) {

@@ -1,4 +1,4 @@
-package com.zsw.rpc.registry.stereotype;
+package com.zsw.rpc.stereotype;
 
 
 import com.zsw.rpc.server.RpcServerConfigurationSelector;
