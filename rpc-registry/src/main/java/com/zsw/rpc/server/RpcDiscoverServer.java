@@ -5,10 +5,11 @@ import com.zsw.rpc.stereotype.RpcService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.serialization.ClassResolver;
+import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.logging.LoggingHandler;
@@ -17,7 +18,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.Lifecycle;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -63,23 +63,27 @@ public class RpcDiscoverServer implements ApplicationContextAware, InitializingB
     public void afterPropertiesSet() throws Exception {
         // 注意要异步运行，不然会阻塞容器的初始化
         new Thread(this).start();
+//        start();
     }
 
     @Override
     public void run() {
+        start();
+    }
+
+    private void start() {
         NioEventLoopGroup boosGroup = new NioEventLoopGroup();
         NioEventLoopGroup workGroup = new NioEventLoopGroup();
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         serverBootstrap.group(boosGroup, workGroup)
                 .channel(NioServerSocketChannel.class)
-                .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new LoggingHandler())
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline()
-                                .addLast(new ObjectDecoder(Integer.MAX_VALUE, null))
+                                .addLast(new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)))
                                 .addLast(new ObjectEncoder())
                                 .addLast(new ProcessorHandler(handlerMappings));
 
@@ -89,6 +93,7 @@ public class RpcDiscoverServer implements ApplicationContextAware, InitializingB
         ChannelFuture channelFuture;
         try {
             channelFuture = serverBootstrap.bind(address).sync();
+            log.info("server start at: {}", address);
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();

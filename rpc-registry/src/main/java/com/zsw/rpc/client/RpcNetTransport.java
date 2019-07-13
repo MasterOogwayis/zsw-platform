@@ -11,4 +11,11 @@ public class RpcNetTransport extends NettyClient<RpcRequest, RpcResponse<Object>
     public RpcNetTransport(String serverAddress) {
         super(serverAddress);
     }
+
+    public static void main(String[] args) {
+        RpcResponse<Object> send = new RpcNetTransport("localhost:8082").send(RpcRequest.builder().build());
+        System.out.println(send);
+    }
+
+
 }

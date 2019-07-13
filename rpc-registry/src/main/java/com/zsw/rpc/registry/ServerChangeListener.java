@@ -6,6 +6,6 @@ package com.zsw.rpc.registry;
 @FunctionalInterface
 public interface ServerChangeListener {
 
-    void change(String serverName);
+    void change(String serverName) throws Exception;
 
 }

@@ -16,6 +16,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * @author Administrator on 2019/7/13 12:52
@@ -25,15 +27,18 @@ public class ZookeeperRegistryCenter implements RegistryCenter, InitializingBean
 
     private static final String PATH_PREFX = "/";
 
-    String zookeeperAddresses;
+    private String zookeeperAddresses;
 
-    String namespace;
+    private String namespace;
+
+    private Executor executor;
 
     CuratorFramework client;
 
-    public ZookeeperRegistryCenter(String zookeeperAddresses, String namespace) {
+    public ZookeeperRegistryCenter(String zookeeperAddresses, String namespace, Executor executor) {
         this.zookeeperAddresses = zookeeperAddresses;
         this.namespace = namespace;
+        this.executor = executor;
     }
 
     @Override
@@ -64,11 +69,11 @@ public class ZookeeperRegistryCenter implements RegistryCenter, InitializingBean
         PathChildrenCacheListener childrenCacheListener = new PathChildrenCacheListener() {
             @Override
             public void childEvent(CuratorFramework curatorFramework, PathChildrenCacheEvent pathChildrenCacheEvent) throws Exception {
-                log.warn("服务器变更：path = {}, type = {}", pathChildrenCacheEvent.getData().getPath(), pathChildrenCacheEvent.getType());
                 listener.change(pathChildrenCacheEvent.getData().getPath());
+                log.warn("服务器变更：path = {}, type = {}", path, pathChildrenCacheEvent.getType());
             }
         };
-        childrenCache.getListenable().addListener(childrenCacheListener);
+        childrenCache.getListenable().addListener(childrenCacheListener, this.executor);
         childrenCache.start();
     }
 
@@ -77,8 +82,7 @@ public class ZookeeperRegistryCenter implements RegistryCenter, InitializingBean
     public void afterPropertiesSet() throws Exception {
         this.client = CuratorFrameworkFactory.builder()
                 .retryPolicy(new ExponentialBackoffRetry(1000, 3))
-                .connectionTimeoutMs(10 * 1000)
-                .sessionTimeoutMs(60 * 1000)
+                .sessionTimeoutMs(5000)
                 .connectString(this.zookeeperAddresses)
                 .namespace(this.namespace)
                 .build();

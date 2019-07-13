@@ -20,8 +20,13 @@ public class ClientApp {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ClientAutoConfiguration.class);
         ServiceHello serviceHello = applicationContext.getBean(ServiceHello.class);
 
-        for (int i = 0; i < 100; i++) {
-            log.info(serviceHello.sayHello("Shaowei Zhang " + i));
+        int i = 0;
+        for (;;) {
+            try {
+                log.info(serviceHello.sayHello("Shaowei Zhang " + i++));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             TimeUnit.SECONDS.sleep(1);
         }
 

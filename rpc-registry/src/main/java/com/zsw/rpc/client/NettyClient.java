@@ -21,11 +21,23 @@ public abstract class NettyClient<T, R> extends SimpleChannelInboundHandler<R> i
 
     private String serverAddress;
 
+    private R result;
+
     public NettyClient(String serverAddress) {
         this.serverAddress = serverAddress;
     }
 
-    private R result;
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, R msg) throws Exception {
+        this.result = msg;
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println("异常：");
+        ctx.close();
+    }
 
     @Override
     public R send(T request) {
@@ -44,9 +56,8 @@ public abstract class NettyClient<T, R> extends SimpleChannelInboundHandler<R> i
                     }
                 });
         String[] split = serverAddress.split(":");
-        InetSocketAddress address = new InetSocketAddress(split[0], Integer.valueOf(split[1]));
         try {
-            ChannelFuture channelFuture = bootstrap.connect(address).sync();
+            ChannelFuture channelFuture = bootstrap.connect(split[0], Integer.valueOf(split[1])).sync();
             channelFuture.channel().writeAndFlush(request).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
@@ -58,8 +69,5 @@ public abstract class NettyClient<T, R> extends SimpleChannelInboundHandler<R> i
         return this.result;
     }
 
-    @Override
-    protected void channelRead0(ChannelHandlerContext ctx, R msg) throws Exception {
-        this.result = msg;
-    }
+
 }

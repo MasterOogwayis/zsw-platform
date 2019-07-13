@@ -2,13 +2,11 @@ package com.zsw.rpc.server;
 
 import com.zsw.rpc.dto.RpcRequest;
 import com.zsw.rpc.dto.RpcResponse;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -30,12 +28,22 @@ public class ProcessorHandler extends SimpleChannelInboundHandler<RpcRequest> {
         channelHandlerContext.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        ChannelFuture close = ctx.close();
+        close.addListener(ChannelFutureListener.CLOSE);
+    }
 
     @SneakyThrows
     private RpcResponse<?> invoke(RpcRequest request) {
         log.info("received request: {}", request);
         RpcResponse<Object> response = new RpcResponse<>();
-        Object bean = this.getBean(request.getClazz() + "#" + request.getVersion());
+        String name = request.getClazz();
+        if (StringUtils.hasText( request.getVersion())) {
+            name = name + "-" + request.getVersion();
+        }
+        Object bean = this.getBean(name);
         Method method;
         if (Objects.isNull(bean)) {
             response.setData("no service found with the given class : " + request.getClazz());

@@ -5,6 +5,6 @@ package com.zsw.rpc.loadbalance;
  **/
 public interface IRule {
 
-    String select(String serverName);
+    String select(String serverName) throws Exception;
 
 }
