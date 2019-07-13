@@ -1,6 +1,7 @@
 package com.zsw.rpc.api;
 
-import com.zsw.rpc.support.stereotype.RpcClient;
+
+import com.zsw.rpc.stereotype.RpcClient;
 
 /**
  * @author ZhangShaowei on 2019/6/6 13:27

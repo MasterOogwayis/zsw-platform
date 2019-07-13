@@ -1,37 +1,33 @@
 package com.zsw.rpc;
 
 import com.zsw.rpc.api.ServiceHello;
-import com.zsw.rpc.autoconfigure.RpcClientAutoConfiguration;
-import lombok.Cleanup;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ZhangShaowei on 2019/6/6 13:35
  **/
+@Slf4j
 public class ClientApp {
 
     @SneakyThrows
     public static void main(String[] args) {
 
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(RpcClientAutoConfiguration.class);
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ClientAutoConfiguration.class);
         ServiceHello serviceHello = applicationContext.getBean(ServiceHello.class);
 
-
-        @Cleanup BufferedReader bufferReader = new BufferedReader(new InputStreamReader(System.in));
-        String line;
-        while (true) {
-            line = bufferReader.readLine();
-
-            if ("exit".endsWith(line)) {
-                break;
+        int i = 0;
+        for (;;) {
+            try {
+                log.info(serviceHello.sayHello("Shaowei Zhang " + i++));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            String str = serviceHello.sayHello(line);
-            System.err.println(str);
+            TimeUnit.SECONDS.sleep(1);
         }
 
     }

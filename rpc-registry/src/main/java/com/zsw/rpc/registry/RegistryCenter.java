@@ -1,12 +1,37 @@
-package com.zsw.rpc.server.registry;
+package com.zsw.rpc.registry;
+
+import java.util.List;
 
 /**
- * 服务注册
+ * 注册中心
  *
- * @author ZhangShaowei on 2019/7/12 9:32
+ * @author Administrator on 2019/7/13 12:51
  **/
 public interface RegistryCenter {
 
-    void registry(String serverName, String address);
+    /**
+     * 注册服务
+     *
+     * @param serverName  服务名
+     * @param serverAddress 地址
+     */
+    void registry(String serverName, String serverAddress);
+
+    /**
+     * 拉取服务地址
+     *
+     * @param serverName 服务名
+     * @return 地址集合
+     */
+    List<String> pull(String serverName);
+
+
+    /**
+     * 提供一个监听接口，当服务变化时触发listener
+     *
+     * @param serverName
+     * @param listener
+     */
+    void watch(String serverName, ServerChangeListener listener);
 
 }
