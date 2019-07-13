@@ -12,6 +12,7 @@
         <module>rpc-server</module>
         <module>rpc-api</module>
         <module>rpc-tests</module>
+        <module>rpc-registry</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -44,6 +45,12 @@
             <dependency>
                 <groupId>com.zsw</groupId>
                 <artifactId>rpc-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.zsw</groupId>
+                <artifactId>rpc-registry</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

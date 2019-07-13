@@ -20,6 +20,10 @@
             <groupId>com.zsw</groupId>
             <artifactId>rpc-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.zsw</groupId>
+            <artifactId>rpc-registry</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>io.netty</groupId>
