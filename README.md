@@ -1,2 +1,2 @@
 # zsw-platform
-demo for cloud
+demo for zookeeper netty rpc
