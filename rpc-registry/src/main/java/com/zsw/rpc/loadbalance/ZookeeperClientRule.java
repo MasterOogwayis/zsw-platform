@@ -58,12 +58,13 @@ public class ZookeeperClientRule implements IRule {
      * @param serverName
      */
     private void update(String serverName) throws Exception {
-        INSTANCE.remove(serverName);
         List<String> addresses = this.registryCenter.pull(serverName);
         if (CollectionUtils.isEmpty(addresses)) {
+            INSTANCE.remove(serverName);
             throw new Exception("Service not found with given name : " + serverName);
+        } else {
+            INSTANCE.put(serverName, new Server(serverName, new RoundRobinLoadBalance(addresses)));
         }
-        INSTANCE.put(serverName, new Server(serverName, new RoundRobinLoadBalance(addresses)));
     }
 
 

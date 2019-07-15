@@ -11,6 +11,7 @@ import java.lang.annotation.*;
 /**
  * 1. 初始化 zk 注册中心
  * 2. 扫描 @RpcClient 并注册代理
+ * @author ZhangShaowei
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
