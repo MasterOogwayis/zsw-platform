@@ -1,7 +1,7 @@
 package com.zsw.rpc.server;
 
 import com.zsw.rpc.registry.RpcRegistryAutoConfiguration;
-import com.zsw.rpc.stereotype.EnableDiscoverServer;
+import com.zsw.rpc.annotation.EnableDiscoverServer;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.AdviceModeImportSelector;
 

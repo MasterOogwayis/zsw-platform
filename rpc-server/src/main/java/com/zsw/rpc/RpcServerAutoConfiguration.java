@@ -1,6 +1,6 @@
 package com.zsw.rpc;
 
-import com.zsw.rpc.stereotype.EnableDiscoverServer;
+import com.zsw.rpc.annotation.EnableDiscoverServer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 

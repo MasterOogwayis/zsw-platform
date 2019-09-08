@@ -1,4 +1,4 @@
-package com.zsw.rpc.stereotype;
+package com.zsw.rpc.annotation;
 
 
 import org.springframework.core.annotation.AliasFor;
