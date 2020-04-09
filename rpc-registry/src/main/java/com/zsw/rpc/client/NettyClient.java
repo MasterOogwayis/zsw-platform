@@ -39,6 +39,12 @@ public abstract class NettyClient<T, R> extends SimpleChannelInboundHandler<R> i
         ctx.close();
     }
 
+    /**
+     * 即时创建的 channel ，修改为保持长连接
+     *
+     * @param request
+     * @return
+     */
     @Override
     public R send(T request) {
         NioEventLoopGroup group = new NioEventLoopGroup(1);

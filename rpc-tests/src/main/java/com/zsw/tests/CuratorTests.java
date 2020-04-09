@@ -8,6 +8,7 @@ import org.apache.curator.framework.recipes.cache.PathChildrenCache;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheListener;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
@@ -32,6 +33,7 @@ public class CuratorTests {
     public void before() {
         this.client = CuratorFrameworkFactory.builder()
                 .connectionTimeoutMs(10 * 1000)
+                .namespace("hello")
                 .connectString(ZookeeperConfig.ZOOKEEPER_ADDRESSES)
                 .retryPolicy(new ExponentialBackoffRetry(1000, 3))
                 .build();
