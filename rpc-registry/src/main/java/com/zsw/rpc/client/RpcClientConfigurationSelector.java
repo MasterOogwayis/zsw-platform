@@ -2,7 +2,7 @@ package com.zsw.rpc.client;
 
 import com.zsw.rpc.loadbalance.LoadBalanceAutoConfiguration;
 import com.zsw.rpc.registry.RpcRegistryAutoConfiguration;
-import com.zsw.rpc.stereotype.EnableDiscoverClient;
+import com.zsw.rpc.annotation.EnableDiscoverClient;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.AdviceModeImportSelector;
 

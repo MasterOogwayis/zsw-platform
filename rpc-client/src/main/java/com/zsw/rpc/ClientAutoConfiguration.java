@@ -1,6 +1,6 @@
 package com.zsw.rpc;
 
-import com.zsw.rpc.stereotype.EnableDiscoverClient;
+import com.zsw.rpc.annotation.EnableDiscoverClient;
 import org.springframework.context.annotation.Configuration;
 
 /**

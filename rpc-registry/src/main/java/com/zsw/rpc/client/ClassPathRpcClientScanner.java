@@ -70,7 +70,7 @@ public class ClassPathRpcClientScanner extends ClassPathBeanDefinitionScanner {
             definition.getConstructorArgumentValues().addGenericArgumentValue(beanClassName);
             definition.setBeanClass(this.rpcClientFactoryBeanClass);
             MultiValueMap<String, Object> annotationAttributes =
-                    definition.getMetadata().getAllAnnotationAttributes("com.zsw.rpc.stereotype.RpcClient");
+                    definition.getMetadata().getAllAnnotationAttributes("com.zsw.rpc.annotation.RpcClient");
 
             Object version = annotationAttributes.get("version").get(0);
             Class<?> target = (Class<?>) annotationAttributes.get("target").get(0);

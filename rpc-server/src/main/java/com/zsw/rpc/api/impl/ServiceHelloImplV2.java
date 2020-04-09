@@ -1,7 +1,7 @@
 package com.zsw.rpc.api.impl;
 
 import com.zsw.rpc.api.ServiceHello;
-import com.zsw.rpc.stereotype.RpcService;
+import com.zsw.rpc.annotation.RpcService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
