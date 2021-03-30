@@ -1,6 +1,6 @@
 package com.zsw.rpc.client;
 
-import com.zsw.rpc.annotation.RpcClient;
+import com.zsw.rpc.annotation.RpcReference;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -25,7 +25,7 @@ public class AutoConfiguredClientScannerRegistry
         if (this.resourceLoader != null) {
             scanner.setResourceLoader(this.resourceLoader);
         }
-        scanner.setAnnotationClass(RpcClient.class);
+        scanner.setAnnotationClass(RpcReference.class);
         scanner.registerFilters();
 
         // TODO  获取注解上的 basePackages
