@@ -8,11 +8,9 @@
     <artifactId>zsw-platform</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>rpc-client</module>
-        <module>rpc-server</module>
-        <module>rpc-api</module>
         <module>rpc-tests</module>
         <module>rpc-registry</module>
+        <module>api-platform</module>
     </modules>
     <packaging>pom</packaging>
 

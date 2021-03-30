@@ -1,7 +1,7 @@
 package com.zsw.rpc.server;
 
-import com.zsw.rpc.dto.RpcRequest;
-import com.zsw.rpc.dto.RpcResponse;
+import com.zsw.rpc.remoting.RpcRequest;
+import com.zsw.rpc.remoting.RpcResponse;
 import io.netty.channel.*;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;

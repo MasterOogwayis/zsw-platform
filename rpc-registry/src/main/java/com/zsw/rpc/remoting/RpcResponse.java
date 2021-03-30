@@ -1,4 +1,4 @@
-package com.zsw.rpc.dto;
+package com.zsw.rpc.remoting;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

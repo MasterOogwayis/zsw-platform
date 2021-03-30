@@ -1,7 +1,7 @@
 package com.zsw.rpc.client;
 
-import com.zsw.rpc.dto.RpcRequest;
-import com.zsw.rpc.dto.RpcResponse;
+import com.zsw.rpc.remoting.RpcRequest;
+import com.zsw.rpc.remoting.RpcResponse;
 import com.zsw.rpc.loadbalance.IRule;
 import lombok.AllArgsConstructor;
 import lombok.Setter;

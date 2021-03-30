@@ -1,8 +1,8 @@
 package com.zsw.rpc.client;
 
 
-import com.zsw.rpc.dto.RpcRequest;
-import com.zsw.rpc.dto.RpcResponse;
+import com.zsw.rpc.remoting.RpcRequest;
+import com.zsw.rpc.remoting.RpcResponse;
 
 /**
  * @author ZhangShaowei on 2019/7/12 14:32
