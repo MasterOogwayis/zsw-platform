@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.listen.StandardListenerManager;
 import org.apache.curator.framework.recipes.cache.PathChildrenCache;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheListener;
@@ -29,11 +30,11 @@ public class ZookeeperRegistryCenter implements RegistryCenter, InitializingBean
 
     private static final String PATH_PREFX = "/";
 
-    private String zookeeperAddresses;
+    private final String zookeeperAddresses;
 
-    private String namespace;
+    private final String namespace;
 
-    private Executor executor;
+    private final Executor executor;
 
     CuratorFramework client;
 

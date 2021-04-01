@@ -89,9 +89,8 @@ public class RpcDiscoverServer implements ApplicationContextAware, InitializingB
                     }
                 });
 
-        ChannelFuture channelFuture;
         try {
-            channelFuture = serverBootstrap.bind(address).sync();
+            ChannelFuture channelFuture = serverBootstrap.bind(address).sync();
             log.info("server start at: {}", address);
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
