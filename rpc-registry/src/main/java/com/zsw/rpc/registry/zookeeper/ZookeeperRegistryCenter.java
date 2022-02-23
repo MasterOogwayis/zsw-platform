@@ -85,7 +85,7 @@ public class ZookeeperRegistryCenter implements RegistryCenter, InitializingBean
     public void afterPropertiesSet() throws Exception {
         this.client = CuratorFrameworkFactory.builder()
                 .retryPolicy(new ExponentialBackoffRetry(1000, 3))
-                .sessionTimeoutMs(5000)
+                .sessionTimeoutMs(15000)
                 .connectString(this.zookeeperAddresses)
                 .namespace(this.namespace)
                 .build();
