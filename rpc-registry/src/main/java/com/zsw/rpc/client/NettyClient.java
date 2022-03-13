@@ -63,7 +63,7 @@ public abstract class NettyClient<T, R> extends SimpleChannelInboundHandler<R> i
                 });
         String[] split = serverAddress.split(":");
         try {
-            ChannelFuture channelFuture = bootstrap.connect(split[0], Integer.valueOf(split[1])).sync();
+            ChannelFuture channelFuture = bootstrap.connect(split[0], Integer.parseInt(split[1])).sync();
             channelFuture.channel().writeAndFlush(request).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
