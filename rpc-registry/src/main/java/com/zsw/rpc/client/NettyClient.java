@@ -40,7 +40,7 @@ public abstract class NettyClient<T, R> extends SimpleChannelInboundHandler<R> i
     }
 
     /**
-     * 即时创建的 channel ，修改为保持长连接
+     * 即时创建的 channel ，TODO 修改为保持长连接
      *
      * @param request
      * @return
