@@ -26,7 +26,7 @@ public class ClientApp {
 
         for (int i = 0; i < 100; i++) {
             try {
-                log.info(serviceHello.sayHello("Shaowei Zhang " + i++));
+                log.info(serviceHello.sayHello("Hi there! " + i++));
             } catch (Exception e) {
                 e.printStackTrace();
             }
