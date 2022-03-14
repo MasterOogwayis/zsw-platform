@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @author ZhangShaowei on 2019/6/6 13:37
+ * @author Administrator
  **/
 @Data
 @Builder

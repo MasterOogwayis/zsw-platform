@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 顺序负载
  *
- * @author Administrator on 2019/7/13 14:40
+ * @author Administrator
  **/
 @Slf4j
 public class RoundRobinLoadBalance implements ILoadBanalce {

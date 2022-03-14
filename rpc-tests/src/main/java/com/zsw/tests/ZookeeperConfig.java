@@ -1,7 +1,7 @@
 package com.zsw.tests;
 
 /**
- * @author Administrator on 2019/7/13 12:32
+ * @author Administrator
  **/
 public class ZookeeperConfig {
 

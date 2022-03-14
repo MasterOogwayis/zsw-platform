@@ -6,7 +6,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.junit.Before;
 
 /**
- * @author ZhangShaowei on 2019/7/15 16:25
+ * @author Administrator
  **/
 public class BaseCuratorTests {
 

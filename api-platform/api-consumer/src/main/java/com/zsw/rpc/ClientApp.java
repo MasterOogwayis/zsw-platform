@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author ZhangShaowei on 2019/6/6 13:35
+ * @author Administrator
  **/
 @Slf4j
 @Configuration

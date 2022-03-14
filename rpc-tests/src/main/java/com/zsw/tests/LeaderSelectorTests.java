@@ -4,7 +4,7 @@ import lombok.SneakyThrows;
 import org.junit.Test;
 
 /**
- * @author ZhangShaowei on 2019/7/16 15:31
+ * @author Administrator
  **/
 public class LeaderSelectorTests extends BaseCuratorTests {
 

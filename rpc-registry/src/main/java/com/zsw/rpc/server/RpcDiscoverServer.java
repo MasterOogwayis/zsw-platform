@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Administrator on 2019/7/13 14:01
+ * @author Administrator
  **/
 @Slf4j
 public class RpcDiscoverServer implements ApplicationContextAware, InitializingBean, Runnable {

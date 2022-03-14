@@ -23,7 +23,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
- * @author Administrator on 2019/7/13 12:52
+ * @author Administrator
  **/
 @Slf4j
 public class ZookeeperRegistryCenter implements RegistryCenter, InitializingBean, Closeable {

@@ -10,7 +10,7 @@ import org.springframework.core.type.AnnotationMetadata;
 /**
  * 将 client 代理类托管给 spring
  *
- * @author Administrator on 2019/7/13 14:31
+ * @author Administrator
  **/
 public class AutoConfiguredClientScannerRegistry
         implements ImportBeanDefinitionRegistrar, ResourceLoaderAware {

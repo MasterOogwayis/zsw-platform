@@ -6,7 +6,7 @@ import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.AdviceModeImportSelector;
 
 /**
- * @author Administrator on 2019/7/13 13:49
+ * @author Administrator
  **/
 public class RpcServerConfigurationSelector extends AdviceModeImportSelector<EnableDiscoverServer> {
     @Override

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Administrator on 2019/7/13 12:30
+ * @author Administrator
  **/
 @Slf4j
 public class CuratorTests {

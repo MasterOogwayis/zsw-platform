@@ -4,7 +4,7 @@ import com.zsw.rpc.registry.RegistryCenter;
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author Administrator on 2019/7/13 15:38
+ * @author Administrator
  **/
 public class LoadBalanceAutoConfiguration {
 

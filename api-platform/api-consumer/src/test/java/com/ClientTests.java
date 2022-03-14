@@ -9,7 +9,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import java.util.List;
 
 /**
- * @author ZhangShaowei on 2019/6/6 14:52
+ * @author Administrator
  **/
 @Slf4j
 public class ClientTests {

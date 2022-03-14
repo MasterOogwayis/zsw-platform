@@ -5,7 +5,7 @@ import com.zsw.rpc.annotation.RpcService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author ZhangShaowei on 2019/6/6 13:29
+ * @author Administrator
  **/
 @Slf4j
 @RpcService(impl = ServiceHello.class)

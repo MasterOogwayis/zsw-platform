@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author ZhangShaowei on 2019/6/6 13:26
+ * @author Administrator
  **/
 @Configuration
 @EnableDiscoverServer

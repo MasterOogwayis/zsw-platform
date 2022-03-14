@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Role;
 import java.net.InetSocketAddress;
 
 /**
- * @author Administrator on 2019/7/13 14:52
+ * @author Administrator
  **/
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @PropertySource("classpath:application.properties")

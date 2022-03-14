@@ -4,7 +4,7 @@ package com.zsw.rpc.api;
 import com.zsw.rpc.annotation.RpcReference;
 
 /**
- * @author ZhangShaowei on 2019/6/6 13:27
+ * @author Administrator
  **/
 @RpcReference
 public interface ServiceHello {

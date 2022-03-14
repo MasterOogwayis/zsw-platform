@@ -12,7 +12,7 @@ import java.lang.annotation.*;
  * 1. 初始化 zk 注册中心
  * 2. 启动 netty 服务
  * 3. 扫描 @RpcService 并注册
- * @author ZhangShaowei
+ * @author Administrator
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

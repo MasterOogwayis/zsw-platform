@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Role;
 /**
  * 由于 server 和 client 模式都要使用 zk 客户端，所以单独配置 zk client
  *
- * @author Administrator on 2019/6/8 20:47
+ * @author Administrator
  **/
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @PropertySource("classpath:application.properties")

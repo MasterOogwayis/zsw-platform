@@ -5,7 +5,7 @@ import com.zsw.rpc.remoting.RpcRequest;
 import com.zsw.rpc.remoting.RpcResponse;
 
 /**
- * @author ZhangShaowei on 2019/7/12 14:32
+ * @author Administrator
  **/
 public class RpcNetTransport extends NettyClient<RpcRequest, RpcResponse<Object>> {
     public RpcNetTransport(String serverAddress) {

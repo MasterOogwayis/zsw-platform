@@ -1,7 +1,7 @@
 package com.zsw.rpc.loadbalance;
 
 /**
- * @author Administrator on 2019/7/13 14:39
+ * @author Administrator
  **/
 public interface ILoadBanalce {
 

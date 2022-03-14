@@ -8,7 +8,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author ZhangShaowei on 2019/7/15 16:25
+ * @author Administrator
  **/
 @Slf4j
 public class LockTests extends BaseCuratorTests {

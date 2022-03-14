@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * Spring的线程池
  * implements AsyncConfigurer
  *
- * @author ZhangShaowei on 2017/7/3 10:56
+ * @author Administrator
  */
 //@Configuration
 public class ThreadPoolConfiguration {

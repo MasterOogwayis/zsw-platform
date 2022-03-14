@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 注册中心
  *
- * @author Administrator on 2019/7/13 12:51
+ * @author Administrator
  **/
 public interface RegistryCenter {
 
